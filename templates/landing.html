@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Converter Pro - Professional PDF Tools</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">PDF Converter Pro</div>
+            <div class="nav-links">
+                <a href="#features">Özellikler</a>
+                <a href="#pricing">Fiyatlandırma</a>
+                <a href="{{ url_for('login') }}" class="nav-button">Giriş Yap</a>
+                <a href="{{ url_for('register') }}" class="nav-button primary">Ücretsiz Başla</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="landing-container">
+            <section class="hero">
+                <h1>PDF Dönüştürme Artık Çok Kolay!</h1>
+                <p class="subtitle">Hızlı, güvenli ve kullanıcı dostu PDF dönüştürme aracı</p>
+                
+                <div class="demo-section">
+                    <h2>Ücretsiz Deneyin</h2>
+                    <p>Kalan kullanım hakkı: {{ 2 - demo_usage }}</p>
+                    
+                    <div class="conversion-options">
+                        <div class="conversion-option">
+                            <h3>PDF'den Resme</h3>
+                            <form action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="demo-form">
+                                <input type="hidden" name="conversion_type" value="pdf_to_image">
+                                <div class="file-upload">
+                                    <input type="file" name="file" id="pdf_file" accept=".pdf" required>
+                                    <label for="pdf_file">PDF Dosyası Seç</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" {% if demo_usage >= 2 %}disabled{% endif %}>
+                                    PDF'den Resme Dönüştür
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="conversion-option">
+                            <h3>Resimden PDF'e</h3>
+                            <form action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="demo-form">
+                                <input type="hidden" name="conversion_type" value="image_to_pdf">
+                                <div class="file-upload">
+                                    <input type="file" name="file" id="image_file" accept=".jpg,.jpeg,.png" required>
+                                    <label for="image_file">Resim Dosyası Seç</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" {% if demo_usage >= 2 %}disabled{% endif %}>
+                                    Resimden PDF'e Dönüştür
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if demo_usage >= 2 %}
+                    <div class="demo-limit-warning">
+                        <p>Demo kullanım hakkınız dolmuştur. Devam etmek için lütfen kayıt olun.</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">Hemen Kayıt Ol</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="features">
+                <h2>Özelliklerimiz</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📄</div>
+                        <h3>Kolay Dönüştürme</h3>
+                        <p>Tek tıkla PDF'lerinizi istediğiniz formata dönüştürün</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Güvenli</h3>
+                        <p>Dosyalarınız güvenli bir şekilde işlenir ve saklanır</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Hızlı İşlem</h3>
+                        <p>Yüksek hızda dönüştürme ve indirme imkanı</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💫</div>
+                        <h3>Yüksek Kalite</h3>
+                        <p>Orijinal kalitede dönüşüm garantisi</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="why-choose-us">
+                <h2>Neden Bizi Seçmelisiniz?</h2>
+                <div class="benefits">
+                    <ul>
+                        <li>✓ Sınırsız dosya dönüştürme</li>
+                        <li>✓ Birden fazla format desteği</li>
+                        <li>✓ Kullanıcı dostu arayüz</li>
+                        <li>✓ 7/24 teknik destek</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PDF Converter Pro</h3>
+                <p>Profesyonel PDF ve görüntü dönüştürme araçları.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <a href="#features">Özellikler</a>
+                <a href="#pricing">Fiyatlandırma</a>
+                <a href="{{ url_for('pricing') }}">Planlar</a>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <a href="mailto:support@pdfconverterpro.com">support@pdfconverterpro.com</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p> 2024 PDF Converter Pro. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+</body>
+</html>

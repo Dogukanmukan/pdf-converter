@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - PDF Converter Pro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="dashboard-container">
+    <div class="dashboard-top">
+        <div class="user-card">
+            <div class="user-info">
+                <span class="user-email">{{ current_user.email }}</span>
+                <span class="user-plan">{{ current_user.subscription_status|title }} Plan</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="conversion-stats">
+        <div class="stat-card">
+            <h3>Günlük Kalan Dönüşüm</h3>
+            {% if current_user.subscription_status == 'premium' %}
+                <p class="stat-number">Sınırsız</p>
+            {% else %}
+                <p class="stat-number">{{ (5 - current_user.daily_conversions)|max_value(0) }}</p>
+                {% if current_user.daily_conversions >= 3 %}
+                    <div class="upgrade-prompt">
+                        <p>Dönüşüm hakkınız azalıyor!</p>
+                        <a href="{{ url_for('create_checkout_session') }}" class="upgrade-button">Premium'a Geç</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="stat-card">
+            <h3>Bugünkü Dönüşümler</h3>
+            <p class="stat-number">{{ current_user.daily_conversions|min_value(5) if current_user.subscription_status != 'premium' else current_user.daily_conversions }}</p>
+        </div>
+        {% if current_user.subscription_status != 'premium' %}
+            <div class="premium-banner">
+                <h3>Premium'a Geçin</h3>
+                <p>Sınırsız dönüşüm ve daha fazla özellik için premium hesaba geçin!</p>
+                <a href="{{ url_for('create_checkout_session') }}" class="premium-button">Premium'a Geç</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="conversion-section">
+        <div class="conversion-card">
+            <h2>PDF'den Resme Dönüştür</h2>
+            <form action="{{ url_for('convert') }}" method="POST" enctype="multipart/form-data" class="conversion-form">
+                <input type="hidden" name="type" value="pdf-to-img">
+                <div class="file-input-wrapper">
+                    <label for="pdf_file" class="file-label">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/>
+                        </svg>
+                        <span>PDF Dosyası Seç</span>
+                    </label>
+                    <input type="file" id="pdf_file" name="file" accept=".pdf" required>
+                    <span class="file-name" id="pdf_file_name">Dosya seçilmedi</span>
+                </div>
+                <button type="submit" class="convert-button">Resme Dönüştür</button>
+            </form>
+        </div>
+
+        <div class="conversion-card">
+            <h2>Resimden PDF'e Dönüştür</h2>
+            <form action="{{ url_for('convert') }}" method="POST" enctype="multipart/form-data" class="conversion-form">
+                <input type="hidden" name="type" value="img-to-pdf">
+                <div class="file-input-wrapper">
+                    <label for="img_file" class="file-label">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/>
+                        </svg>
+                        <span>Resim Dosyası Seç</span>
+                    </label>
+                    <input type="file" id="img_file" name="file" accept=".jpg,.jpeg,.png" required>
+                    <span class="file-name" id="img_file_name">Dosya seçilmedi</span>
+                </div>
+                <button type="submit" class="convert-button">PDF'e Dönüştür</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="conversion-history">
+        <h2>Dönüşüm Geçmişi</h2>
+        <div class="history-list">
+            {% for conversion in conversions %}
+            <div class="history-item">
+                <div class="history-icon">
+                    {% if conversion.conversion_type == 'pdf-to-img' %}
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {% else %}
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {% endif %}
+                </div>
+                <div class="history-details">
+                    <div class="history-main">
+                        <span class="history-type">{{ conversion.conversion_type|replace('-', ' ')|title }}</span>
+                        <span class="history-file">{{ conversion.source_file }}</span>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-date">{{ conversion.timestamp|datetime }}</span>
+                        <span class="history-status success">Başarılı</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-history">
+                <svg width="48" height="48" viewBox="0 0 24 24">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p>Henüz dönüşüm yapılmadı</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>

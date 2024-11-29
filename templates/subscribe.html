@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Pro - PDF Converter Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/subscribe.css') }}">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="subscribe-body">
+    <nav class="dashboard-nav">
+        <div class="nav-left">
+            <div class="logo">PDF Converter Pro</div>
+        </div>
+        <div class="nav-right">
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="subscribe-main">
+        <div class="subscribe-header">
+            <h1>Upgrade to Pro</h1>
+            <p>Unlock unlimited conversions and premium features</p>
+        </div>
+
+        <div class="plans-comparison">
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h2>Free Plan</h2>
+                    <p class="price">₺0<span>/month</span></p>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            5 conversions per day
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Basic quality
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Max file size: 10MB
+                        </li>
+                        <li class="disabled">
+                            <svg class="x-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                            Batch processing
+                        </li>
+                        <li class="disabled">
+                            <svg class="x-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                            Priority support
+                        </li>
+                    </ul>
+                </div>
+                <div class="plan-footer">
+                    <button class="btn-secondary" disabled>Current Plan</button>
+                </div>
+            </div>
+
+            <div class="plan-card featured">
+                <div class="plan-badge">Most Popular</div>
+                <div class="plan-header">
+                    <h2>Pro Plan</h2>
+                    <p class="price">₺99<span>/month</span></p>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Unlimited conversions
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Premium quality
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Max file size: 50MB
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Batch processing
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Priority support
+                        </li>
+                    </ul>
+                </div>
+                <div class="plan-footer">
+                    <button id="checkout-button" class="btn-primary">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Convert files in seconds with our optimized processing engine</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+                    </svg>
+                </div>
+                <h3>Batch Processing</h3>
+                <p>Convert multiple files at once to save time</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <h3>Secure & Private</h3>
+                <p>Your files are automatically deleted after conversion</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const stripe = Stripe('your-publishable-key');
+        const checkoutButton = document.getElementById('checkout-button');
+
+        checkoutButton.addEventListener('click', async () => {
+            try {
+                checkoutButton.disabled = true;
+                checkoutButton.textContent = 'Processing...';
+
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                });
+
+                const session = await response.json();
+
+                if (session.error) {
+                    throw new Error(session.error);
+                }
+
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                checkoutButton.textContent = 'Error - Try Again';
+            } finally {
+                checkoutButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

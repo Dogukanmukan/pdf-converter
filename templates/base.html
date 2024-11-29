@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PDF Converter{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}">PDF Converter Pro</a>
+                    {% else %}
+                        <a href="{{ url_for('landing') }}">PDF Converter Pro</a>
+                    {% endif %}
+                </div>
+                <div class="nav-links">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}" class="nav-button">Dashboard</a>
+                        <a href="{{ url_for('pricing') }}" class="nav-button">Fiyatlandırma</a>
+                        {% if current_user.subscription_status != 'premium' %}
+                            <a href="{{ url_for('create_checkout_session') }}" class="nav-button primary">Premium'a Geç</a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="nav-button">Çıkış Yap</a>
+                    {% else %}
+                        <a href="{{ url_for('landing') }}" class="nav-button">Ana Sayfa</a>
+                        <a href="{{ url_for('pricing') }}" class="nav-button">Fiyatlandırma</a>
+                        <a href="{{ url_for('login') }}" class="nav-button">Giriş Yap</a>
+                        <a href="{{ url_for('register') }}" class="nav-button primary">Kayıt Ol</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
